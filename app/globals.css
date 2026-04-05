@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+/* ── Light theme tokens ── */
+:root {
+  --background: #f8f9fb;
+  --foreground: #0f1729;
+
+  --color-accent: #6366f1;
+  --color-accent-hover: #4f46e5;
+  --color-accent-muted: #eef2ff;
+  --color-accent-text: #ffffff;
+
+  --color-surface-0: #f8f9fb;
+  --color-surface-1: #ffffff;
+  --color-surface-2: #f1f5f9;
+  --color-surface-3: #e8ecf1;
+
+  --color-border: #e2e8f0;
+  --color-border-muted: #f1f5f9;
+
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #94a3b8;
+
+  --color-danger: #ef4444;
+  --color-danger-muted: #fef2f2;
+  --color-success: #22c55e;
+  --color-success-muted: #f0fdf4;
+  --color-warning: #f59e0b;
+  --color-warning-muted: #fffbeb;
+
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.03);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+}
+
+/* ── Dark theme tokens ── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #09090b;
+    --foreground: #f0f0f3;
+
+    --color-accent: #818cf8;
+    --color-accent-hover: #a5b4fc;
+    --color-accent-muted: rgba(99, 102, 241, 0.15);
+    --color-accent-text: #0f0f23;
+
+    --color-surface-0: #09090b;
+    --color-surface-1: #111114;
+    --color-surface-2: #1a1a1f;
+    --color-surface-3: #27272a;
+
+    --color-border: #27272a;
+    --color-border-muted: #1a1a1f;
+
+    --color-text-primary: #f0f0f3;
+    --color-text-secondary: #a1a1aa;
+    --color-text-muted: #71717a;
+
+    --color-danger: #f87171;
+    --color-danger-muted: rgba(239, 68, 68, 0.12);
+    --color-success: #4ade80;
+    --color-success-muted: rgba(34, 197, 94, 0.12);
+    --color-warning: #fbbf24;
+    --color-warning-muted: rgba(245, 158, 11, 0.12);
+
+    --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.2);
+    --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+  }
+}
+
+/* ── Tailwind theme integration ── */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-accent-muted: var(--color-accent-muted);
+  --color-accent-text: var(--color-accent-text);
+  --color-surface-0: var(--color-surface-0);
+  --color-surface-1: var(--color-surface-1);
+  --color-surface-2: var(--color-surface-2);
+  --color-surface-3: var(--color-surface-3);
+  --color-border: var(--color-border);
+  --color-border-muted: var(--color-border-muted);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+  --color-danger: var(--color-danger);
+  --color-danger-muted: var(--color-danger-muted);
+  --color-success: var(--color-success);
+  --color-success-muted: var(--color-success-muted);
+  --color-warning: var(--color-warning);
+  --color-warning-muted: var(--color-warning-muted);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ── Animation keyframes ── */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes toast-enter {
+  from { opacity: 0; transform: translateY(-8px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Base styles ── */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ── Utility classes ── */
+@layer utilities {
+  .animate-fade-in {
+    animation: fade-in 200ms ease-out both;
+  }
+  .animate-slide-up {
+    animation: slide-up 250ms ease-out both;
+  }
+  .animate-slide-in-right {
+    animation: slide-in-right 250ms ease-out both;
+  }
+  .animate-skeleton {
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+  }
+  .animate-toast-enter {
+    animation: toast-enter 250ms ease-out both;
+  }
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }
+}

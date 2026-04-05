@@ -1,0 +1,39 @@
+{
+  "name": "omni-email",
+  "version": "0.1.0",
+  "description": "The open-source AI email client that manages your inbox for you",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Enterprise-DNA-OS/Omni-Email.git"
+  },
+  "homepage": "https://enterprisedna.co",
+  "author": "Enterprise DNA <hello@enterprisedna.co> (https://enterprisedna.co)",
+  "license": "MIT",
+  "keywords": ["email", "ai", "gmail", "outlook", "nextjs", "supabase", "openrouter", "automation"],
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.10.0",
+    "@supabase/supabase-js": "^2.101.1",
+    "lucide-react": "^1.7.0",
+    "next": "16.2.2",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "supabase": "^2.84.7"
+  },
+  "devDependencies": {
+    "@netlify/plugin-nextjs": "^5.15.9",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.2",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

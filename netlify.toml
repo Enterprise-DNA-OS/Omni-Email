@@ -1,0 +1,14 @@
+# Next.js on Netlify — https://docs.netlify.com/frameworks/next-js/overview/
+[build]
+  command = "npm run build"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Optional: bump if the default Node is too old for Next 16
+[build.environment]
+  NODE_VERSION = "22"

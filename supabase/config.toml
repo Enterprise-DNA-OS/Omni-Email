@@ -1,0 +1,10 @@
+# Local Supabase CLI — run: npx supabase start
+# https://supabase.com/docs/guides/cli/config
+
+project_id = "nsnamiwzdnozkitdvtvj"
+
+[api]
+enabled = true
+
+[db]
+major_version = 17
