@@ -102,6 +102,3 @@ export const navSections: NavSection[] = [
     ],
   },
 ];
-
-/** Flat list of all nav items (for backwards compat / search) */
-export const navItems: NavItem[] = navSections.flatMap((s) => s.items);
