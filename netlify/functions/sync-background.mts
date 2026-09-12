@@ -10,8 +10,13 @@ export default async (req: Request, _context: Context) => {
     return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
   }
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+  if (!supabaseUrl || !serviceKey || !appUrl) {
+    return new Response(JSON.stringify({ error: "Server configuration error" }), { status: 500 });
+  }
+
   const admin = createClient(supabaseUrl, serviceKey);
 
   // Pick accounts that are due for sync (not invalid, ordered by next_sync_at)
@@ -27,7 +32,6 @@ export default async (req: Request, _context: Context) => {
   }
 
   // Call the internal sync endpoint for each account sequentially
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL!;
   const results: { id: string; status: string }[] = [];
 
   for (const account of accounts) {
