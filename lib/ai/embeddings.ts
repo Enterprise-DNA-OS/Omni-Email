@@ -49,7 +49,13 @@ async function callEmbeddingsFunction(texts: string[]): Promise<number[][]> {
 
   const json = (await res.json()) as { embeddings?: number[][]; error?: string };
   if (json.error) throw new Error(json.error);
-  if (!json.embeddings) throw new Error("Embeddings response missing data");
+  if (
+    !Array.isArray(json.embeddings) ||
+    json.embeddings.length !== texts.length ||
+    json.embeddings.some((embedding) => !Array.isArray(embedding))
+  ) {
+    throw new Error("Embeddings response is malformed");
+  }
 
   return json.embeddings;
 }
