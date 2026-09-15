@@ -39,14 +39,6 @@ async function pickSendAccount(
   return { accountId, provider: acc.provider as Provider };
 }
 
-function base64UrlEncode(buf: Buffer): string {
-  return buf
-    .toString("base64")
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
-}
-
 /** Build an Outlook attachment item for the Graph API */
 function buildOutlookAttachment(att: AttachmentInput): Record<string, unknown> {
   return {
