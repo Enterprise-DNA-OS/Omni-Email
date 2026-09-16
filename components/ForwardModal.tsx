@@ -111,6 +111,7 @@ export function ForwardModal({
           {/* p-2.5 gives a ~44px touch target for the close button */}
           <button
             type="button"
+            aria-label="Close forward dialog"
             onClick={onClose}
             className="rounded-md p-2.5 text-text-muted transition-colors hover:bg-surface-2 hover:text-text-primary sm:p-1.5"
           >
