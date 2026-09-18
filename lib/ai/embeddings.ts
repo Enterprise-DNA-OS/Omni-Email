@@ -69,53 +69,6 @@ export async function generateEmbedding(text: string): Promise<number[]> {
 }
 
 /**
- * Load a message, build its text representation, generate an embedding, and upsert into
- * the message_embeddings table. Uses the admin client so RLS does not block service writes.
- */
-export async function embedMessage(messageId: string): Promise<void> {
-  const admin = createAdminClient();
-
-  const { data: message, error } = await admin
-    .from("messages")
-    .select("id, sender, body_text, body_html")
-    .eq("id", messageId)
-    .maybeSingle();
-
-  if (error || !message) {
-    throw error ?? new Error(`Message ${messageId} not found`);
-  }
-
-  // Prefer plain text body; fall back to stripping HTML
-  const rawBody =
-    (message.body_text as string | null) ??
-    stripHtml((message.body_html as string | null) ?? "");
-
-  const text = [
-    `From: ${(message.sender as string | null) ?? ""}`,
-    rawBody,
-  ]
-    .join("\n")
-    .slice(0, MAX_EMBEDDING_CHARS);
-
-  const embedding = await generateEmbedding(text);
-
-  // pgvector accepts the vector as a bracketed string "[0.1, 0.2, ...]"
-  const vectorStr = `[${embedding.join(",")}]`;
-
-  const { error: upsertError } = await admin.from("message_embeddings").upsert(
-    {
-      message_id: messageId,
-      embedding: vectorStr,
-    },
-    { onConflict: "message_id" },
-  );
-
-  if (upsertError) {
-    throw upsertError;
-  }
-}
-
-/**
  * Find messages for a user that do not yet have embeddings and generate them in batches.
  * Called after each sync cycle so new messages are indexed quickly.
  */
