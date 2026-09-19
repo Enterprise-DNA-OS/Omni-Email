@@ -76,11 +76,12 @@ export async function aggregateDailyAnalytics(userId: string, date: string): Pro
   );
 
   // Get threads for the user
-  const { data: threads } = await admin
+  const { data: threads, error: threadErr } = await admin
     .from("threads")
     .select("id")
     .eq("user_id", userId);
 
+  if (threadErr) throw new Error(`Failed to fetch threads: ${threadErr.message}`);
   const threadIds = (threads ?? []).map((t) => t.id as string);
 
   // Count messages received and sent on this date
@@ -89,12 +90,14 @@ export async function aggregateDailyAnalytics(userId: string, date: string): Pro
   const responsePairsMinutes: number[] = [];
 
   if (threadIds.length > 0) {
-    const { data: msgs } = await admin
+    const { data: msgs, error: msgErr } = await admin
       .from("messages")
       .select("account_id, sender, message_at, thread_id")
       .in("thread_id", threadIds)
       .gte("message_at", dayStart.toISOString())
       .lte("message_at", dayEnd.toISOString());
+
+    if (msgErr) throw new Error(`Failed to fetch messages: ${msgErr.message}`);
 
     // Track last inbound per thread for response time calculation
     const lastInboundPerThread = new Map<string, Date>();
@@ -137,13 +140,15 @@ export async function aggregateDailyAnalytics(userId: string, date: string): Pro
       : null;
 
   // Auto-archived / auto-deleted counts from audit_log
-  const { data: auditRows } = await admin
+  const { data: auditRows, error: auditErr } = await admin
     .from("audit_log")
     .select("action")
     .eq("user_id", userId)
     .eq("actor", "system")
     .gte("created_at", dayStart.toISOString())
     .lte("created_at", dayEnd.toISOString());
+
+  if (auditErr) throw new Error(`Failed to fetch audit log: ${auditErr.message}`);
 
   // Action strings written by automation: 'auto_archive', by user archive route: 'thread.archive',
   // and legacy: 'archive'. Similarly for delete variants.
@@ -159,13 +164,15 @@ export async function aggregateDailyAnalytics(userId: string, date: string): Pro
   }
 
   // AI draft stats from drafts table (where source='ai')
-  const { data: aiDraftRows } = await admin
+  const { data: aiDraftRows, error: draftErr } = await admin
     .from("drafts")
     .select("status")
     .eq("user_id", userId)
     .eq("source", "ai")
     .gte("updated_at", dayStart.toISOString())
     .lte("updated_at", dayEnd.toISOString());
+
+  if (draftErr) throw new Error(`Failed to fetch AI drafts: ${draftErr.message}`);
 
   let aiDraftsAccepted = 0;
   let aiDraftsEdited = 0;
