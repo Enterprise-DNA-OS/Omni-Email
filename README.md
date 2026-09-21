@@ -62,7 +62,7 @@ Most AI email tools bolt ChatGPT onto a reply button. Omni Email is different:
 
 | Tool | Role |
 |------|------|
-| **[Claude Code](https://claude.ai/claude-code)** by Anthropic | Primary development tool. Claude Code acted as the AI coding agent, building features end-to-end across the full stack -- from database migrations to API routes to React components. Six specialist agents (defined in `AGENTS.md`) each owned a specific domain of the codebase. |
+| **[Claude Code](https://claude.ai/claude-code)** by Anthropic | Primary development tool. Claude Code acted as the AI coding agent, building features end-to-end across the full stack -- from database migrations to API routes to React components. Eight specialist agents (defined in `AGENTS.md`) each owned a specific domain of the codebase. |
 | **[Cursor](https://cursor.com)** | AI-powered IDE used throughout development for code navigation, inline edits, and rapid iteration. Cursor's deep codebase understanding made refactoring and debugging significantly faster. |
 | **[GitHub Copilot](https://github.com/features/copilot)** | AI pair programming assistant used for code completion, boilerplate generation, and pattern matching across the codebase. |
 
@@ -557,9 +557,9 @@ This project was designed from the ground up to work well with AI development to
 Omni Email includes two key files that make Claude Code extremely effective:
 
 - **`CLAUDE.md`** -- Project-wide instructions, conventions, and architecture overview. Claude Code reads this automatically and follows all conventions (import aliases, auth patterns, response formats, styling rules, etc.)
-- **`AGENTS.md`** -- Defines 6 specialist agents with clear ownership boundaries
+- **`AGENTS.md`** -- Defines 8 specialist agents with clear ownership boundaries
 
-#### The 6 Specialist Agents
+#### The 8 Specialist Agents
 
 | Agent | Domain | Key Files |
 |-------|--------|-----------|
@@ -569,6 +569,8 @@ Omni Email includes two key files that make Claude Code extremely effective:
 | **API & Backend Logic** | Route handlers, validation, queries | `app/api/` |
 | **AI Features** | OpenRouter, edge functions, prompts | `lib/ai/`, `supabase/functions/` |
 | **Frontend & UI** | Components, pages, layouts, styling | `components/`, `app/(app)/` |
+| **Mobile Optimization** | Mobile responsiveness, touch UX, viewport audits | `components/`, `app/(app)/` |
+| **QA Health Check** | Regression checks, API contracts, anti-pattern scans | `QA_CHECKLIST.md`, all project files |
 
 When using Claude Code, you can invoke the right specialist agent for any task. The agents coordinate through ownership boundaries -- for example, if you're building a feature that needs a new database column and a new API endpoint, start with the Database agent, then the API agent, then the Frontend agent.
 
